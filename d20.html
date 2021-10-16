@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: monospace;
+      font-size: 12pt;
+      background: #000;
+      color: #fff;
+      padding: 0;
+      margin: 0;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+    form {
+      user-select: none;
+      display: flex;
+    }
+    fieldset {
+      width: 200px;
+      border: 3px double #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    fieldset:last-of-type {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    legend {
+      text-align: right;
+    }
+    input, label {
+      margin-bottom: .5rem;
+    }
+    input, button {
+      font-family: monospace;
+      outline: none;
+    }
+    button {
+      cursor: pointer;
+    }
+    p, output {
+      margin: 0;
+      line-height: 1.5rem;
+      width: 50%;
+    }
+    table {
+      border: 1px solid #fff;
+      position: absolute;
+      left: 2.5vw;
+    }
+    th, td {
+      border: 1px solid #fff;
+      text-align: center;
+      width: 98px;
+    }
+  </style>
+</head>
+<body>
+  <form autocomplete="off">
+    <fieldset>
+      <legend>TESTE D20</legend>
+      <label for="taxa">TAXA %</label>
+      <input type="number" name="taxa" min="0" max="30" pattern="^[0-9]+$" required>
+      <label for="pericia">PERÍCIA</label>
+      <input type="number" name="pericia" min="0" max="14" pattern="^[0-9]+$" required>
+      <label for="dado">DADO</label>
+      <!-- input para d20 -->
+      <input type="number" name="dado" min="1" max="20" pattern="^[0-9]+$" required>
+      <button type="submit">TESTAR</button>
+    </fieldset>
+    <fieldset>
+      <legend>RESULTADO</legend>
+      <p>
+        Taxa:<br>
+        Perícia:<br>
+        VdH:<br>
+        Dado:<br>
+        Teste:
+      </p>
+      <output></output>
+    </fieldset>
+  </form>
+  <table>
+    <tr>
+      <th>VdH</th>
+      <th>Normal</th>
+      <th>Bom</th>
+      <th>Extremo</th>
+    </tr>
+    <tr>
+      <td>01</td>
+      <td>20</td>
+      <td>**</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td>02</td>
+      <td>19</td>
+      <td>20</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td>03</td>
+      <td>18</td>
+      <td>20</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td>04</td>
+      <td>17</td>
+      <td>19</td>
+      <td>**</td>
+    </tr>
+    <tr>
+      <td>05</td>
+      <td>16</td>
+      <td>19</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>06</td>
+      <td>15</td>
+      <td>18</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>07</td>
+      <td>14</td>
+      <td>18</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>08</td>
+      <td>13</td>
+      <td>17</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>09</td>
+      <td>12</td>
+      <td>17</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>11</td>
+      <td>16</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>10</td>
+      <td>16</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>09</td>
+      <td>15</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>08</td>
+      <td>15</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>07</td>
+      <td>14</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>06</td>
+      <td>14</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>05</td>
+      <td>13</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>04</td>
+      <td>13</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>03</td>
+      <td>12</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>02</td>
+      <td>12</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>01</td>
+      <td>11</td>
+      <td>17</td>
+    </tr>
+  </table>
+  <script>
+    const table = {
+      01: [20, 99, 99],
+      02: [19, 20, 99],
+      03: [18, 20, 99],
+      04: [17, 19, 99],
+      05: [16, 19, 20],
+      06: [15, 18, 20],
+      07: [14, 18, 20],
+      08: [13, 17, 20],
+      09: [12, 17, 20],
+      10: [11, 16, 19],
+      11: [10, 16, 19],
+      12: [09, 15, 19],
+      13: [08, 15, 19],
+      14: [07, 14, 19],
+      15: [06, 14, 18],
+      16: [05, 13, 18],
+      17: [04, 13, 18],
+      18: [03, 12, 18],
+      19: [02, 12, 18],
+      20: [01, 11, 17],
+    };
+    const form = document.forms[0];
+    const output = form.querySelector('output');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const taxa = parseInt(form.taxa.value);
+      const pericia = parseInt(form.pericia.value);
+      const dice = parseInt(form.dado.value); // d20 input
+      form.reset();
+      if (isNaN(taxa) || isNaN(pericia)) return;
+      output.innerHTML = testa(taxa, pericia, dice);
+    });
+    function testa(ta, pe, dice) {
+      console.log(ta / 100 * 20);
+      const value = Math.floor((ta / 100 * 20) + pe);
+      const skill = table[`${value}`];
+      // const dice = d20(); // d20 random
+      const inner = resul(value, skill, dice);
+      return `${ta}%<br>${pe}<br>${value}<br>${dice}<br>${inner}`;
+    };
+    function resul(val, arr, dice) {
+      if (dice === 1 && val !== 20) return 'DESASTRE';
+      if (dice < arr[0]) return 'FRACASSO'; 
+      if (dice >= arr[2]) return 'EXTREMO';
+      if (dice >= arr[1]) return 'BOM';
+      if (dice >= arr[0]) return 'NORMAL';
+    };
+    // d20 random
+    // function d20() {
+    //   return Math.ceil(Math.random() * 20);
+    // };
+  </script>
+</body>
+</html>
