@@ -193,6 +193,7 @@
     e.preventDefault();
     const por = parseInt(porc.value);
     const per = parseInt(peri.value);
+    if (por === 0 && per === 0) return;
     const mod = mode.value;
     const dic = (mod === 'auto') ? diceRoll() : parseInt(dice.value);
     testa(por, per, dic);
@@ -201,7 +202,7 @@
   });
   function testa(po, pe, di) {
     if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
-    const value = Math.floor((po / 100 * 20) + pe);
+    const value = (po > 0) ? Math.floor((po / 100 * 20) + pe) : pe;
     if (value > 20) console.error(`O VdH é maior que o coberto pela tabela: ${value}`);
     const skill = table[`${value}`];
     const inner = resul(value, skill, di);
