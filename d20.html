@@ -203,7 +203,7 @@
     if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
     let value = (po / 100 * 20) + pe;
     if (value > 20) console.error(`O VdH é maior que o coberto pela tabela: ${value}`);
-    if (value <= 0) valor = 1;
+    if (value <= 0) value = 1;
     const skill = table[`${value}`];
     const inner = resul(value, skill, di);
     const array = [po, pe, value, di, color(inner)];
