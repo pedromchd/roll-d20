@@ -93,18 +93,27 @@
   #red {
     color: red
   }
-  table#mms {
+  /* table#mms {
     border: 1px solid #fff;
     position: absolute;
     left: 2.5vw;
+    border-collapse: separate;
   }
   #mms th, #mms td {
     border: 1px solid #fff;
     text-align: center;
     width: 98px;
+  } */
+  img {
+    /* align-self: flex-start; */
+    aspect-ratio: 1;
+    width: 15vh;
+    position: absolute;
+    top: 10vh;
   }
 </style>
 <body>
+  <img src="d20.gif" alt="">
   <form name="form" autocomplete="off">
     <fieldset>
       <legend>TESTE D20</legend>
@@ -174,7 +183,7 @@
   //   for (let i = 1; i <= 20; i++) {
   //     const row = maquina_mortifera.insertRow();
   //     let cell = row.insertCell();
-  //     cell.innerHTML = `0${i}`;
+  //     cell.innerHTML = (i < 10) ? `0${i}` : i;
   //     for (let j = 0; j < 3; j++) {
   //       cell = row.insertCell();
   //       cell.innerHTML = table[`${i}`][j];
