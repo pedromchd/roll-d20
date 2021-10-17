@@ -1,271 +1,232 @@
 <!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 12pt;
-      background: #000;
-      color: #fff;
-      padding: 0;
-      margin: 0;
-      height: 100vh;
-      display: grid;
-      place-items: center;
-    }
-    form {
-      user-select: none;
-      display: flex;
-    }
-    fieldset {
-      width: 200px;
-      border: 3px double #fff;
-      display: flex;
-      flex-direction: column;
-    }
-    fieldset:last-of-type {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-    legend {
-      text-align: right;
-    }
-    input, label {
-      margin-bottom: .5rem;
-    }
-    input, button {
-      font-family: monospace;
-      outline: none;
-    }
-    button {
-      cursor: pointer;
-    }
-    p, output {
-      margin: 0;
-      line-height: 1.5rem;
-      width: 50%;
-    }
-    table {
-      border: 1px solid #fff;
-      position: absolute;
-      left: 2.5vw;
-    }
-    th, td {
-      border: 1px solid #fff;
-      text-align: center;
-      width: 98px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>d20 script</title>
+  <!-- Dice D20 by FortAwesome | https://www.svgrepo.com/svg/351948/dice-d20 | CC Attribution License -->
+  <link rel="icon" href="data:image/svg+xml,%0A%3Csvg width='512px' height='512px' viewBox='-16 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M106.75 215.06L1.2 370.95c-3.08 5 .1 11.5 5.93 12.14l208.26 22.07-108.64-190.1zM7.41 315.43L82.7 193.08 6.06 147.1c-2.67-1.6-6.06.32-6.06 3.43v162.81c0 4.03 5.29 5.53 7.41 2.09zM18.25 423.6l194.4 87.66c5.3 2.45 11.35-1.43 11.35-7.26v-65.67l-203.55-22.3c-4.45-.5-6.23 5.59-2.2 7.57zm81.22-257.78L179.4 22.88c4.34-7.06-3.59-15.25-10.78-11.14L17.81 110.35c-2.47 1.62-2.39 5.26.13 6.78l81.53 48.69zM240 176h109.21L253.63 7.62C250.5 2.54 245.25 0 240 0s-10.5 2.54-13.63 7.62L130.79 176H240zm233.94-28.9l-76.64 45.99 75.29 122.35c2.11 3.44 7.41 1.94 7.41-2.1V150.53c0-3.11-3.39-5.03-6.06-3.43zm-93.41 18.72l81.53-48.7c2.53-1.52 2.6-5.16.13-6.78l-150.81-98.6c-7.19-4.11-15.12 4.08-10.78 11.14l79.93 142.94zm79.02 250.21L256 438.32v65.67c0 5.84 6.05 9.71 11.35 7.26l194.4-87.66c4.03-1.97 2.25-8.06-2.2-7.56zm-86.3-200.97l-108.63 190.1 208.26-22.07c5.83-.65 9.01-7.14 5.93-12.14L373.25 215.06zM240 208H139.57L240 383.75 340.43 208H240z'/%3E%3C/svg%3E"/>
 </head>
+<style>
+  /* Reset.css by http://meyerweb.com/eric/tools/css/reset/ */
+  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block}body{line-height:1}ol, ul{list-style:none}blockquote, q{quotes:none}blockquote:before, blockquote:after, q:before, q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+  /* User CSS */
+  html, body, * {
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    box-sizing: border-box;
+  }
+  body {
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  form {
+    display: flex;
+    user-select: none;
+  }
+  fieldset {
+    padding: .5rem;
+    border: 3px double #fff;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-inline: .25rem;
+  }
+  legend {
+    text-align: right;
+    padding-inline: .25rem;
+  }
+  label, input, section {
+    margin-bottom: .5rem;
+  }
+  button, input[type="button"] {
+    font-size: 10pt;
+    cursor: pointer;
+  }
+  input, button {
+    outline: none;
+  }
+  input {
+    height: 21px;
+  }
+  input:disabled {
+    cursor: default;
+  }
+  section label, section input{
+    margin: 0;
+  }
+  section {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  table#output {
+    width: 100%;
+    height: 100%;
+  }
+  table#output td {
+    width: 50%;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5rem;
+  }
+  em {
+    font-weight: 600;
+  }
+  #blue {
+    color: blue;
+  }
+  #green {
+    color: green;
+  }
+  #yellow {
+    color: yellow;
+  }
+  #orange {
+    color: orange;
+  }
+  #red {
+    color: red
+  }
+  table#mms {
+    border: 1px solid #fff;
+    position: absolute;
+    left: 2.5vw;
+  }
+  #mms th, #mms td {
+    border: 1px solid #fff;
+    text-align: center;
+    width: 98px;
+  }
+</style>
 <body>
-  <form autocomplete="off">
+  <form name="form" autocomplete="off">
     <fieldset>
       <legend>TESTE D20</legend>
-      <label for="taxa">TAXA %</label>
-      <input type="number" name="taxa" min="0" max="30" pattern="^[0-9]+$" required>
-      <label for="pericia">PERÍCIA</label>
-      <input type="number" name="pericia" min="0" max="14" pattern="^[0-9]+$" required>
-      <label for="dado">DADO</label>
-      <!-- input para d20 -->
-      <input type="number" name="dado" min="1" max="20" pattern="^[0-9]+$" required>
+      <label for="porcent">PORCENTAGEM</label>
+      <input name="porcent" type="number" min="0" max="30" pattern="^[0-9]+$" required>
+      <label for="pericia">PTS PERÍCIA</label>
+      <input name="pericia" type="number" min="0" max="14" pattern="^[0-9]+$" required>
+      <section>
+        <input type="radio" name="mode" value="auto" required onchange="diceInput()" checked>
+        <label for="mode">Auto</label>
+        <input type="radio" name="mode" value="roll" required onchange="diceInput()">
+        <label for="mode">Roll</label>
+      </section>
+      <section>
+        <label for="dice">Dado:</label>
+        <input name="dice" type="number" min="1" max="20" pattern="^[0-9]+$" required onfocus="checkRoll()" disabled>
+        <input name="roll" type="button" value="roll" onclick="this.previousElementSibling.value = diceRoll(); checkRoll()" disabled>
+      </section>
       <button type="submit">TESTAR</button>
     </fieldset>
     <fieldset>
       <legend>RESULTADO</legend>
-      <p>
-        Taxa:<br>
-        Perícia:<br>
-        VdH:<br>
-        Dado:<br>
-        Teste:
-      </p>
-      <output></output>
+      <table id="output">
+        <tr><td>Porcent</td><td class="output"></td></tr>
+        <tr><td>Perícia</td><td class="output"></td></tr>
+        <tr><td>VdH</td><td class="output"></td></tr>
+        <tr><td>Dado</td><td class="output"></td></tr>
+        <tr><td>TESTE</td><td class="output"></td></tr>
+      </table>
     </fieldset>
   </form>
-  <table>
-    <tr>
-      <th>VdH</th>
-      <th>Normal</th>
-      <th>Bom</th>
-      <th>Extremo</th>
-    </tr>
-    <tr>
-      <td>01</td>
-      <td>20</td>
-      <td>**</td>
-      <td>**</td>
-    </tr>
-    <tr>
-      <td>02</td>
-      <td>19</td>
-      <td>20</td>
-      <td>**</td>
-    </tr>
-    <tr>
-      <td>03</td>
-      <td>18</td>
-      <td>20</td>
-      <td>**</td>
-    </tr>
-    <tr>
-      <td>04</td>
-      <td>17</td>
-      <td>19</td>
-      <td>**</td>
-    </tr>
-    <tr>
-      <td>05</td>
-      <td>16</td>
-      <td>19</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>06</td>
-      <td>15</td>
-      <td>18</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>07</td>
-      <td>14</td>
-      <td>18</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>08</td>
-      <td>13</td>
-      <td>17</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>09</td>
-      <td>12</td>
-      <td>17</td>
-      <td>20</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>11</td>
-      <td>16</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>10</td>
-      <td>16</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>09</td>
-      <td>15</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <td>13</td>
-      <td>08</td>
-      <td>15</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <td>14</td>
-      <td>07</td>
-      <td>14</td>
-      <td>19</td>
-    </tr>
-    <tr>
-      <td>15</td>
-      <td>06</td>
-      <td>14</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>16</td>
-      <td>05</td>
-      <td>13</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>17</td>
-      <td>04</td>
-      <td>13</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>18</td>
-      <td>03</td>
-      <td>12</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>19</td>
-      <td>02</td>
-      <td>12</td>
-      <td>18</td>
-    </tr>
-    <tr>
-      <td>20</td>
-      <td>01</td>
-      <td>11</td>
-      <td>17</td>
-    </tr>
-  </table>
-  <script>
-    const table = {
-      01: [20, 99, 99],
-      02: [19, 20, 99],
-      03: [18, 20, 99],
-      04: [17, 19, 99],
-      05: [16, 19, 20],
-      06: [15, 18, 20],
-      07: [14, 18, 20],
-      08: [13, 17, 20],
-      09: [12, 17, 20],
-      10: [11, 16, 19],
-      11: [10, 16, 19],
-      12: [09, 15, 19],
-      13: [08, 15, 19],
-      14: [07, 14, 19],
-      15: [06, 14, 18],
-      16: [05, 13, 18],
-      17: [04, 13, 18],
-      18: [03, 12, 18],
-      19: [02, 12, 18],
-      20: [01, 11, 17],
-    };
-    const form = document.forms[0];
-    const output = form.querySelector('output');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const taxa = parseInt(form.taxa.value);
-      const pericia = parseInt(form.pericia.value);
-      const dice = parseInt(form.dado.value); // d20 input
-      form.reset();
-      if (isNaN(taxa) || isNaN(pericia)) return;
-      output.innerHTML = testa(taxa, pericia, dice);
-    });
-    function testa(ta, pe, dice) {
-      console.log(ta / 100 * 20);
-      const value = Math.floor((ta / 100 * 20) + pe);
-      const skill = table[`${value}`];
-      // const dice = d20(); // d20 random
-      const inner = resul(value, skill, dice);
-      return `${ta}%<br>${pe}<br>${value}<br>${dice}<br>${inner}`;
-    };
-    function resul(val, arr, dice) {
-      if (dice === 1 && val !== 20) return 'DESASTRE';
-      if (dice < arr[0]) return 'FRACASSO'; 
-      if (dice >= arr[2]) return 'EXTREMO';
-      if (dice >= arr[1]) return 'BOM';
-      if (dice >= arr[0]) return 'NORMAL';
-    };
-    // d20 random
-    // function d20() {
-    //   return Math.ceil(Math.random() * 20);
-    // };
-  </script>
+  <!-- rafi blanc has been there O.o -->
+  <table name="maquina-mortifera" id="mms"></table>
 </body>
+<script>
+  const table = {
+    01: [20, 99, 99],
+    02: [19, 20, 99],
+    03: [18, 20, 99],
+    04: [17, 19, 99],
+    05: [16, 19, 20],
+    06: [15, 18, 20],
+    07: [14, 18, 20],
+    08: [13, 17, 20],
+    09: [12, 17, 20],
+    10: [11, 16, 19],
+    11: [10, 16, 19],
+    12: [09, 15, 19],
+    13: [08, 15, 19],
+    14: [07, 14, 19],
+    15: [06, 14, 18],
+    16: [05, 13, 18],
+    17: [04, 13, 18],
+    18: [03, 12, 18],
+    19: [02, 12, 18],
+    20: [01, 11, 17],
+  }
+  const form = document.form;
+  const porc = form.porcent;
+  const peri = form.pericia;
+  const mode = form.mode;
+  const dice = form.dice;
+  const roll = form.roll;
+  const output = form.querySelectorAll('.output');
+  const maquina_mortifera = document.querySelector('#mms');
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   for (let i = 1; i <= 20; i++) {
+  //     const row = maquina_mortifera.insertRow();
+  //     let cell = row.insertCell();
+  //     cell.innerHTML = `0${i}`;
+  //     for (let j = 0; j < 3; j++) {
+  //       cell = row.insertCell();
+  //       cell.innerHTML = table[`${i}`][j];
+  //     }
+  //   }
+  // });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const por = parseInt(porc.value);
+    const per = parseInt(peri.value);
+    const mod = mode.value;
+    const dic = (mod === 'auto') ? diceRoll() : parseInt(dice.value);
+    testa(por, per, dic);
+    // form.reset();
+  });
+  function testa(po, pe, di) {
+    if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
+    const value = Math.floor((po / 100 * 20) + pe);
+    const skill = table[`${value}`];
+    const inner = resul(value, skill, di);
+    const array = [po, pe, value, di, color(inner)];
+    display(array);
+  }
+  function resul(val, arr, dic) {
+    if (dic === 1 && val !== 20) return 'DESASTRE';
+    if (dic < arr[0]) return 'FRACASSO';
+    if (dic >= arr[2]) return 'EXTREMO';
+    if (dic >= arr[1]) return 'BOM';
+    if (dic >= arr[0]) return 'NORMAL';
+  }
+  function display(arr) {
+    for (const i in output) {
+      output[i].innerHTML = arr[i];
+    }
+  }
+  function diceRoll() {
+    return Math.ceil(Math.random() * 20);
+  }
+  function diceInput() {
+    dice.value = '';
+    dice.disabled = (mode.value === 'auto') ? true : false;
+    roll.disabled = (mode.value === 'auto') ? true : false;
+  }
+  function checkRoll() {
+    mode.value = 'roll';
+  }
+  function color(txt) {
+    if (txt === 'DESASTRE') return `<em id="red">${txt}</em>`;
+    if (txt === 'FRACASSO') return `<em id="yellow">${txt}</em>`;
+    if (txt === 'NORMAL') return `<em id="blue">${txt}</em>`;
+    if (txt === 'BOM') return `<em id="green">${txt}</em>`;
+    if (txt === 'EXTREMO') return `<em id="orange">${txt}</em>`;
+  }
+</script>
 </html>
