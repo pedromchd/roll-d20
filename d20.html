@@ -197,6 +197,7 @@
     const dic = (mod === 'auto') ? diceRoll() : parseInt(dice.value);
     testa(por, per, dic);
     form.reset();
+    diceInput();
   });
   function testa(po, pe, di) {
     if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
