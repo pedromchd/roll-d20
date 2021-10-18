@@ -19,6 +19,7 @@
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-size: 12pt;
     box-sizing: border-box;
+    user-select: none;
   }
   body {
     height: 100vh;
@@ -97,6 +98,7 @@
     width: 15vh;
     position: absolute;
     top: 10vh;
+    /* user-select: none; */
   }
   table#mms {
     border: 1px solid #fff;
@@ -105,14 +107,27 @@
     border-collapse: separate;
     border-spacing: 2px;
     background: #000;
+    /* transition: 1s; */
+    /* user-select: none; */
+    /* z-index: 100; */
   }
   table#mms td {
-    width: 100px;
+    width: 7vw;
     border: 1px solid #fff;
     text-align: center;
     vertical-align: middle;
     line-height: 1.5rem;
   }
+  /* button#hide {
+    background: none;
+    border: none;
+    color: #fff;
+    position: absolute;
+    height: 100px;
+    bottom: 40vh;
+    right: -20px;
+    z-index: 0;
+  } */
 </style>
 <body>
   <!-- D20 gif by https://hedronrockworks.com/pricing -->
@@ -263,6 +278,10 @@
         cell.innerHTML = z(table[`${i}`][j]);
       }
     }
+    // const hide = document.createElement('button');
+    // hide.id = 'hide';
+    // hide.innerHTML = '<<<';
+    // mms.appendChild(hide);
   }
   function mmsColor(mms, vdh) {
     Array.prototype.slice.call(mms.rows).forEach((r, i) => {
@@ -289,5 +308,10 @@
   document.querySelector('#result').onclick = () => {
     clear();
   }
+  // document.addEventListener('click', () => {
+  //   let tran = maquina_mortifera.style.transform;
+  //   tran = (tran === '') ? 'translateX(-35vw)' : '';
+  //   maquina_mortifera.style.transform = tran;
+  // });
 </script>
 </html>
