@@ -12,6 +12,9 @@
   /* Reset.css by http://meyerweb.com/eric/tools/css/reset/ */
   html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block}body{line-height:1}ol, ul{list-style:none}blockquote, q{quotes:none}blockquote:before, blockquote:after, q:before, q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
   /* User CSS */
+  :root {
+    --color: #fff;
+  }
   html, body, * {
     font-family: 'Consolas', 'Courier New', Courier, monospace;
     font-size: 12pt;
@@ -31,7 +34,7 @@
   }
   fieldset {
     padding: .5rem;
-    border: 3px double #fff;
+    border: 4px double #fff;
     width: 200px;
     display: flex;
     flex-direction: column;
@@ -75,7 +78,11 @@
     vertical-align: middle;
   }
   em {
+    color: var(--color);
     font-weight: 600;
+  }
+  #white {
+    color: #ffffff;
   }
   #blue {
     color: #0000ff;
@@ -83,30 +90,28 @@
   #green {
     color: #008000;
   }
-  #yellow {
-    color: #ffff00;
-  }
   #orange {
     color: #ffa500;
   }
-  #red {
-    color: #ff0000
-  }
-  /* table#mms {
-    border: 1px solid #fff;
-    position: absolute;
-    left: 2.5vw;
-    border-collapse: separate;
-  }
-  #mms th, #mms td {
-    border: 1px solid #fff;
-    text-align: center;
-    width: 98px;
-  } */
   img {
     width: 15vh;
     position: absolute;
     top: 10vh;
+  }
+  table#mms {
+    border: 1px solid #fff;
+    position: absolute;
+    left: 2.5vw;
+    border-collapse: separate;
+    border-spacing: 2px;
+    background: #000;
+  }
+  table#mms td {
+    width: 100px;
+    border: 1px solid #fff;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.5rem;
   }
 </style>
 <body>
@@ -133,7 +138,7 @@
       <button type="submit">TESTAR</button>
     </fieldset>
     <fieldset>
-      <legend>RESULTADO</legend>
+      <legend id="result">RESULTADOS</legend>
       <table id="output">
         <tr><td>Porcent</td><td class="output"></td></tr>
         <tr><td>Perícia</td><td class="output"></td></tr>
@@ -148,6 +153,11 @@
 </body>
 <script>
   const table = {
+    00: [
+      '<em id="blue">NORMAL</em>', 
+      '<em id="green">BOM</em>', 
+      '<em id="orange">EXTREMO</em>'
+    ],
     01: [20, 99, 99],
     02: [19, 20, 99],
     03: [18, 20, 99],
@@ -168,7 +178,17 @@
     18: [03, 12, 18],
     19: [02, 12, 18],
     20: [01, 11, 17],
-  }
+  };
+  const colors = {
+    NORMAL: '#0000ff',
+    BOM: '#008000',
+    FRACASSO: '#ffff00',
+    EXTREMO: '#ffa500',
+    DESASTRE: '#ff0000'
+  };
+  // const dices = dices {
+
+  // }
   const form = document.form;
   const porc = form.porcent;
   const peri = form.pericia;
@@ -176,18 +196,10 @@
   const dice = form.dice;
   const roll = form.roll;
   const output = form.querySelectorAll('.output');
-  // const maquina_mortifera = document.querySelector('#mms');
-  // document.addEventListener('DOMContentLoaded', () => {
-  //   for (let i = 1; i <= 20; i++) {
-  //     const row = maquina_mortifera.insertRow();
-  //     let cell = row.insertCell();
-  //     cell.innerHTML = (i < 10) ? `0${i}` : i;
-  //     for (let j = 0; j < 3; j++) {
-  //       cell = row.insertCell();
-  //       cell.innerHTML = table[`${i}`][j];
-  //     }
-  //   }
-  // });
+  const maquina_mortifera = document.querySelector('#mms');
+  document.addEventListener('DOMContentLoaded', () => {
+    mmsBuild(maquina_mortifera, table);
+  });
   form.addEventListener('submit', e => {
     e.preventDefault();
     const por = parseInt(porc.value);
@@ -200,13 +212,14 @@
   });
   function testa(po, pe, di) {
     if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
-    let value = Math.floor(po / 100 * 20 + pe);
+    let value = Math.floor(po / 100 * 20) + pe;
     if (value > 20) value = 20;
     if (value <= 0) value = 1;
     const skill = table[`${value}`];
     const inner = resul(value, skill, di);
     const array = [po, pe, value, di, color(inner)];
     display(array);
+    mmsColor(maquina_mortifera, value);
   }
   function resul(val, arr, dic) {
     if (dic === 1 && val !== 20) return 'DESASTRE';
@@ -232,11 +245,49 @@
     mode.value = 'roll';
   }
   function color(txt) {
-    if (txt === 'DESASTRE') return `<em id="red">${txt}</em>`;
-    if (txt === 'FRACASSO') return `<em id="yellow">${txt}</em>`;
-    if (txt === 'NORMAL') return `<em id="blue">${txt}</em>`;
-    if (txt === 'BOM') return `<em id="green">${txt}</em>`;
-    if (txt === 'EXTREMO') return `<em id="orange">${txt}</em>`;
+    document.querySelector(':root').style.setProperty('--color', colors[txt]);
+    return `<em>${txt}</em>`;
+  }
+  function z(n) {
+    if (isNaN(n)) return n;
+    if (n === 99) return '**';
+    return (n < 10) ? `0${n}` : n;
+  }
+  function mmsBuild(mms, table) {
+    for (let i = 0; i <= 20; i++) {
+      const row = mms.insertRow();
+      let cell = row.insertCell();
+      cell.innerHTML = (i === 0) ? '<em id="white">VdH</em>' : z(i);
+      for (let j = 0; j < 3; j++) {
+        cell = row.insertCell();
+        cell.innerHTML = z(table[`${i}`][j]);
+      }
+    }
+  }
+  function mmsColor(mms, vdh) {
+    Array.prototype.slice.call(mms.rows).forEach((r, i) => {
+      if (!i) return;
+      Array.prototype.slice.call(r.cells).forEach(c => {
+        c.innerHTML = c.innerHTML.replace('<em>', '').replace('</em>', '');
+        if (i === vdh) c.innerHTML = `<em>${c.innerHTML}</em>`;
+      });
+    });
+  }
+  function clear() {
+    Array.prototype.slice.call(output).map(o => {
+      return o.innerHTML = '';
+    });
+    mmsColor(maquina_mortifera, 0);
+  }
+  document.querySelector('#result').onmouseover = () => {
+    document.querySelector('#result').innerHTML = '>>LIMPAR<<';
+    document.querySelector('#result').style.cursor = 'pointer';
+  };
+  document.querySelector('#result').onmouseout = () => {
+    document.querySelector('#result').innerHTML = 'RESULTADOS';
+  };
+  document.querySelector('#result').onclick = () => {
+    clear();
   }
 </script>
 </html>
