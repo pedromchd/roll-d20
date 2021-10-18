@@ -73,25 +73,24 @@
     width: 50%;
     text-align: center;
     vertical-align: middle;
-    margin: 5rem;
   }
   em {
     font-weight: 600;
   }
   #blue {
-    color: blue;
+    color: #0000ff;
   }
   #green {
-    color: green;
+    color: #008000;
   }
   #yellow {
-    color: yellow;
+    color: #ffff00;
   }
   #orange {
-    color: orange;
+    color: #ffa500;
   }
   #red {
-    color: red
+    color: #ff0000
   }
   /* table#mms {
     border: 1px solid #fff;
@@ -105,7 +104,6 @@
     width: 98px;
   } */
   img {
-    aspect-ratio: 1;
     width: 15vh;
     position: absolute;
     top: 10vh;
@@ -113,7 +111,7 @@
 </style>
 <body>
   <!-- D20 gif by https://hedronrockworks.com/pricing -->
-  <img src="d20.gif" alt="">
+  <img src="d20.gif" onerror="this.src = 'https:\/\/images.squarespace-cdn.com/content/v1/5f1b3c67fe442f31256c4097/1596149166234-VQQDXWGQWW39WYNMF73K/D20+Traditional.gif'">
   <form name="form" autocomplete="off">
     <fieldset>
       <legend>TESTE D20</legend>
@@ -122,9 +120,9 @@
       <label for="pericia">PTS PERÍCIA</label>
       <input name="pericia" type="number" min="0" max="20" pattern="^[0-9]+$" required>
       <section>
-        <input type="radio" name="mode" value="auto" required onchange="diceInput()" checked>
+        <input name="mode" type="radio" value="auto" required onchange="diceInput()" checked>
         <label for="mode">Auto</label>
-        <input type="radio" name="mode" value="roll" required onchange="diceInput()">
+        <input name="mode" type="radio" value="roll" required onchange="diceInput()">
         <label for="mode">Roll</label>
       </section>
       <section>
@@ -178,7 +176,7 @@
   const dice = form.dice;
   const roll = form.roll;
   const output = form.querySelectorAll('.output');
-  const maquina_mortifera = document.querySelector('#mms');
+  // const maquina_mortifera = document.querySelector('#mms');
   // document.addEventListener('DOMContentLoaded', () => {
   //   for (let i = 1; i <= 20; i++) {
   //     const row = maquina_mortifera.insertRow();
@@ -202,8 +200,8 @@
   });
   function testa(po, pe, di) {
     if (isNaN(po) || isNaN(pe) || isNaN(di)) return;
-    let value = (po / 100 * 20) + pe;
-    if (value > 20) console.error(`O VdH é maior que o coberto pela tabela: ${value}`);
+    let value = Math.floor(po / 100 * 20 + pe);
+    if (value > 20) value = 20;
     if (value <= 0) value = 1;
     const skill = table[`${value}`];
     const inner = resul(value, skill, di);
