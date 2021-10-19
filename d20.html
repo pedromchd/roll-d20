@@ -98,6 +98,7 @@
     width: 15vh;
     position: absolute;
     top: 10vh;
+    z-index: -1;
     /* user-select: none; */
   }
   table#mms {
@@ -117,6 +118,7 @@
     text-align: center;
     vertical-align: middle;
     line-height: 1.5rem;
+    /* z-index: 100; */
   }
   /* button#hide {
     background: none;
@@ -136,9 +138,9 @@
     <fieldset>
       <legend>TESTE D20</legend>
       <label for="porcent">PORCENTAGEM</label>
-      <input name="porcent" type="number" min="0" max="30" pattern="^[0-9]+$" required>
+      <input name="porcent" type="number" min="0" max="30" pattern="^[0-9]+$" required title="Insira a porcentagem base da perícia">
       <label for="pericia">PTS PERÍCIA</label>
-      <input name="pericia" type="number" min="0" max="20" pattern="^[0-9]+$" required>
+      <input name="pericia" type="number" min="0" max="20" pattern="^[0-9]+$" required title="Insira o atributo mínimo da perícia">
       <section>
         <input name="mode" type="radio" value="auto" required onchange="diceInput()" checked>
         <label for="mode">Auto</label>
@@ -147,7 +149,7 @@
       </section>
       <section>
         <label for="dice">Dado:</label>
-        <input name="dice" type="number" min="1" max="20" pattern="^[0-9]+$" required onfocus="checkRoll()" disabled>
+        <input name="dice" type="number" min="1" max="20" pattern="^[0-9]+$" required onfocus="checkRoll()" disabled title="Número rolado no dado">
         <input name="roll" type="button" value="roll" onclick="this.previousElementSibling.value = diceRoll(); checkRoll()" disabled>
       </section>
       <button type="submit">TESTAR</button>
