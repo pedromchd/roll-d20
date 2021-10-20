@@ -99,7 +99,6 @@
     position: absolute;
     top: 10vh;
     z-index: -1;
-    /* user-select: none; */
   }
   table#mms {
     border: 1px solid #fff;
@@ -107,10 +106,13 @@
     left: 2.5vw;
     border-collapse: separate;
     border-spacing: 2px;
+    display: flex;
+    align-items: center;
+    transition: 1s;
+  }
+  table#mms tbody {
     background: #000;
-    /* transition: 1s; */
-    /* user-select: none; */
-    /* z-index: 100; */
+    z-index: 10;
   }
   table#mms td {
     width: 7vw;
@@ -118,18 +120,22 @@
     text-align: center;
     vertical-align: middle;
     line-height: 1.5rem;
-    /* z-index: 100; */
   }
-  /* button#hide {
-    background: none;
-    border: none;
-    color: #fff;
-    position: absolute;
-    height: 100px;
-    bottom: 40vh;
-    right: -20px;
+  button#hide {
     z-index: 0;
-  } */
+    position: absolute;
+    right: -3%;
+    height: 100px;
+    background: #000;
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 0 25px 25px 0;
+    transition: .5s;
+  }
+  button#hide:hover {
+    color: #fff;
+    transform: translateX(35%);
+  }
 </style>
 <body>
   <!-- D20 gif by https://hedronrockworks.com/pricing -->
@@ -166,7 +172,9 @@
     </fieldset>
   </form>
   <!-- rafi blanc has been there O.o -->
-  <table name="maquina-mortifera" id="mms"></table>
+  <table name="maquina-mortifera" id="mms">
+    <tbody></tbody>
+  </table>
 </body>
 <script>
   const table = {
@@ -280,10 +288,7 @@
         cell.innerHTML = z(table[`${i}`][j]);
       }
     }
-    // const hide = document.createElement('button');
-    // hide.id = 'hide';
-    // hide.innerHTML = '<<<';
-    // mms.appendChild(hide);
+    mms.innerHTML += '<button id="hide" onclick="hide(this)"> <<</button>';
   }
   function mmsColor(mms, vdh) {
     Array.prototype.slice.call(mms.rows).forEach((r, i) => {
@@ -310,10 +315,11 @@
   document.querySelector('#result').onclick = () => {
     clear();
   }
-  // document.addEventListener('click', () => {
-  //   let tran = maquina_mortifera.style.transform;
-  //   tran = (tran === '') ? 'translateX(-35vw)' : '';
-  //   maquina_mortifera.style.transform = tran;
-  // });
+  function hide(that) {
+    let inner = that.innerHTML;
+    let tran = maquina_mortifera.style.transform;
+    that.innerHTML = (inner === ' &lt;&lt;') ? ' >>' : ' <<';
+    maquina_mortifera.style.transform = (tran === '') ? 'translateX(-31.25vw)' : '';
+  };
 </script>
 </html>
